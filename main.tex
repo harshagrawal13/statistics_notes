@@ -1,0 +1,131 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage{tabularx} % extra features for tabular environment
+\usepackage{amsmath, amssymb, mathtools}  % improve math presentation
+\usepackage{graphicx} % takes care of graphics including machinery
+\usepackage{url}
+\usepackage{chemfig}
+\usepackage[margin=1in,letterpaper]{geometry} % decreases margins
+\usepackage{caption}
+\usepackage{adjustbox}
+\usepackage{cite} % takes care of citations
+\usepackage[final]{hyperref} % adds hyperlinks inside the generated pdf file
+\usepackage{microtype} % Add this line to import microtype
+\hypersetup{
+	colorlinks=true,       % false: boxed links; true: colored links
+	linkcolor=blue,        % color of internal links
+	citecolor=blue,        % color of links to bibliography
+	filecolor=magenta,     % color of file links
+	urlcolor=blue         
+}
+\usepackage{blindtext}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{standalone}
+\usepackage{xcolor}
+\usepackage{bookmark}
+\usepackage{chemformula}
+
+\setchemfig{atom sep=4em}
+\captionsetup{justification=centering}
+\definecolor{darkgray}{gray}{0.3}
+% \newcommand{\annot}[1]{{\textcolor{darkgray}{\textit{#1}}}}
+\newcommand{\annot}[1]{\textcolor{darkgray}{\textit{#1}}}
+%++++++++++++++++++++++++++++++++++++++++
+
+\renewcommand{\footnoterule}{%
+  \kern-3pt % space above the rule
+  \hrule width \textwidth height 0.4pt
+  \kern5pt % space below the rule
+}
+
+\begin{document}
+% TODO: Make the title page centered and in a single page
+\title{Statistics \& Probability Notes}
+\author{Harsh Agrawal}
+\date{\today}
+\maketitle
+
+\begin{abstract}
+	This notebook compiles content from Statistics and Probability module delivered by Prof.\ Joseph Van Baterburg-Sherwood (2nd Year Imperial College London MBE). 
+	A total of 6 lectures are covered in these notes. Please suggest any relevant changes/improvements at \href{ha1822@ic.ac.uk}{ha1822@ic.ac.uk}.
+\end{abstract}
+
+\tableofcontents
+\newpage
+\section{Introduction}
+\begin{center}
+\textit{`There are lies, damned lies, and statistics. \- Mark Twain'}
+\end{center}
+
+If we begin a mission to create a drug for cancer, we need a way to test if it works. The ideal way would be to test it on every patient with that specific cancer --- i.e the entire `cancer population'. However, this is, for obvious reasons, not possible. 
+
+What we can do is test it on a subset of the population --- i.e a `sample' of the `population'. We can then use the outcome of this test to \textbf{infer} the properties of the entire population. This is what \textbf{statistics} and \textbf{probability} allow us to do.
+
+We start by looking at different types of statistics. On the basis of purpose and scope, we categorise them into \textbf{descriptive statistics} and \textbf{inferential statistics}.
+\begin{itemize}
+	\item \textbf{Descriptive statistics} are used to describe the properties of the sample and population. It presents the underlying data in a meaningful way. Correct choice of desciptors is essential.Eg: Is the drug being trialled increasing the WBC count? 
+	\item \textbf{Inferential statistics} are used to make predictions about the population based on the sample. Eg: Is the drug being trialled effective in increasing the WBC count? 
+	\end{itemize}
+
+On the basis of parametrization, we categorise them into \textbf{para\-metric} and \textbf{non-para\-metric} statistics.
+
+% TODO: Add more details about the difference between the two.
+\section{Descriptive Statistics}
+\subsection{Sample Mean}
+A sample-mean (arithmetic) for n observations is given by:
+\begin{equation}
+	\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i
+\end{equation}
+
+The sum of the deviations from the mean is always zero.
+
+
+\subsection{Sample Median}
+The sample median is the middle value of the data when ordered from smallest to largest. Its mathematical expression is given by:
+\begin{equation}
+	\tilde{x} = \left\{
+	\begin{array}{ll}
+		x{(\frac{n+1}{2})} & \text{if } n \text{ is odd} \\
+		\frac{x{\left(\frac{n}{2}\right)} + x{\left(\frac{n}{2} + 1\right)}}{2} & \text{if } n \text{ is even}
+	\end{array}
+	\right.
+\end{equation}
+
+A sample median is a non-parametric measure of location --- i.e, it doesn't assume the shape of the data distribution. Moreover, its less sensitive (more robust) to outliers in data than the sample mean. 
+
+\subsection{Sample Variance and Standard Deviation}
+The sample variance defines, on average, how far the data points are from the mean. It is given by:
+\begin{equation}
+	s^2 = \frac{1}{n-1} \sum_{i=1}^{n} {\left(x_i - \bar{x}\right)}^2
+\end{equation}
+
+For convience of units, we take the square root of the variance to get the standard deviation. It is a better measure of uncertainty as it has the same units as the underlying data. It's given by:
+\begin{equation}
+	s = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n} {\left(x_i - \bar{x}\right)}^2}
+\end{equation}
+
+Often to specify uncertainty, we specify mean $\pm$ (multiple) standard deviations. Eg: \textit{The mean WBC count is $\bar{x} \pm 2s$}.
+
+\subsection{Sample Median Absolute Deviation}
+Just like the median, the median absolute deviation (MAD) is a non-parametric measure of spread. It is an alternative to standard deviation. Its calculated by obtaining the absolute deviations from the median, and then taking the median of those values. Mathematically, it is given by:
+\begin{equation}
+	\text{MAD} = k \cdot\widetilde{|x_i - \tilde{x}|}
+\end{equation}
+A scaling factor $k$ is applied to make the MAD comparable to the standard deviation. For a normal distribution, $k = 1.4826$.
+
+\subsection{Sample Percentiles --- Discrete}
+Useful for describing proportions of a dataset relative to a given number. Eg. --- If you got higher marks than 90\% of the class, you are in the $75^{th}$ percentile.
+
+\begin{itemize}
+	\item Sample Median: $50^{th}$ percentile.
+	\item Lower Quartile (LQ): Below $25^{th}$ percentile.
+	\item Upper Quartile (UQ): Above $75^{th}$ percentile.
+	\item Interquartile Range (IQR): Between $25^{th}$ and $75^{th}$ percentiles. $IQR = UQ - LQ$.
+\end{itemize}
+
+Let's look at an example to find the $60^{th}$ percentile $\eta$ of:
+\[X = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\]
+
+% TODO: Add details about how to calculate the percentiles.
+
+\end{document}
